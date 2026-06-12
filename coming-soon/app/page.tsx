@@ -223,6 +223,23 @@ export default function Home() {
             <a href="#waitlist" className="text-brand-700 hover:text-brand-900 text-sm font-medium transition-colors">
               Waitlist
             </a>
+            <a 
+              href="#footer" 
+              onClick={(e) => {
+                e.preventDefault();
+                const footer = document.querySelector('footer');
+                footer?.scrollIntoView({ behavior: 'smooth' });
+                // Optional: Add a temporary highlight effect
+                const socialSection = footer?.querySelector('.social-section');
+                socialSection?.classList.add('ring-2', 'ring-brand-400', 'ring-offset-2', 'rounded-lg', 'transition-all', 'duration-300');
+                setTimeout(() => {
+                  socialSection?.classList.remove('ring-2', 'ring-brand-400', 'ring-offset-2', 'rounded-lg');
+                }, 2000);
+              }}
+              className="text-brand-700 hover:text-brand-900 text-sm font-medium transition-colors"
+            >
+              Contact
+            </a>
           </nav>
 
           <a
@@ -341,7 +358,7 @@ export default function Home() {
 
           {/* Slide Content */}
           <div
-            className="relative z-10 max-w-7xl mx-auto px-8 md:px-14 lg:px-20 w-full py-10 md:py-14 pb-28 md:pb-14"
+            className="relative z-20 max-w-7xl mx-auto px-8 md:px-14 lg:px-20 w-full py-10 md:py-14 pb-36 md:pb-28"
             role="group"
             aria-roledescription="slide"
             aria-label={`Slide ${currentSlide + 1} of ${totalSlides}: ${current.subtitle}`}
@@ -440,7 +457,7 @@ export default function Home() {
 
                     {/* Category Pills */}
                     <div className="flex gap-2 px-4 pt-3 pb-2 overflow-x-auto no-scrollbar">
-                      {['Fashion', 'Beauty', 'Crafts', 'Food'].map((cat, i) => (
+                      {['Fashion', 'Beauty', 'Crafts', 'Food', 'electronics'].map((cat, i) => (
                         <span
                           key={cat}
                           className={`shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full ${
@@ -579,7 +596,7 @@ export default function Home() {
                     <s.icon className="w-4 h-4 text-brand-600" aria-hidden="true" />
                   </div>
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-brand-800">{s.value}</div>
+                <div className="text-2xl md:text-3xl font-bold text-brand-800 mb-2">{s.value}</div>
                 <div className="text-xs font-semibold text-brand-700 mt-0.5">{s.label}</div>
               </motion.div>
             ))}
@@ -655,15 +672,15 @@ export default function Home() {
                   </div>
 
                   <div className="md:mt-5 flex-1 w-full">
-                    <h3 className="text-base md:text-lg font-bold text-brand-800 mb-3">{step.title}</h3>
+                    <h3 className="md:h-12 lg:h-10 text-base md:text-lg font-bold text-brand-800 mb-3">{step.title}</h3>
 
                     <div className="flex items-start gap-2.5 md:justify-center mb-2.5">
-                      <div className="mt-0.5 shrink-0 w-2.5 h-2.5 rounded-full bg-brand-600" aria-hidden="true" />
+                      <div className="mt-1.5 shrink-0 w-2.5 h-2.5 rounded-full bg-brand-600" aria-hidden="true" />
                       <p className="text-brand-700 text-sm leading-relaxed text-left">{step.buyerDesc}</p>
                     </div>
 
                     <div className="flex items-start gap-2.5 md:justify-center">
-                      <div className="mt-0.5 shrink-0 w-2.5 h-2.5 rounded-full bg-brand-300 border border-brand-400" aria-hidden="true" />
+                      <div className="mt-1.5 shrink-0 w-2.5 h-2.5 rounded-full bg-brand-300 border border-brand-400" aria-hidden="true" />
                       <p className="text-brand-700 text-sm leading-relaxed text-left">{step.sellerDesc}</p>
                     </div>
                   </div>
@@ -803,7 +820,7 @@ export default function Home() {
               <Image src="/logo.png" alt="Faflora" width={110} height={36} className="h-9 w-auto object-contain" loading="eager" />
             </div>
 
-            <div className="flex flex-col items-center gap-2">
+            <div id="social-section" className="flex flex-col items-center gap-2 social-section">
               <p className="text-xs font-bold text-brand-700 tracking-wide uppercase">Follow us</p>
               <nav aria-label="Social media links">
                 <div className="flex gap-3">

@@ -1,0 +1,47 @@
+name: CI
+
+
+on:
+  
+  push:
+    branches: [main, develop, feature/*]
+  
+  pull_request:
+    branches: [main]
+  
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Success notification
+        if: success()
+        run: echo "✅ All checks passed - ready for review!"
+      
+      - name: Failure notification
+        if: failure()
+        run: echo "❌ Build failed - check the logs above"

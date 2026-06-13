@@ -60,7 +60,7 @@ export function DigitStack({ currentValue, label }: DigitStackProps) {
           );
         })}
       </div>
-      <span className="text-[9px] md:text-xs font-semibold tracking-widest uppercase text-brand-700 mt-0.5">
+      <span className="text-[9px] md:text-xs font-semibold tracking-widest uppercase text-brand-800 mt-0.5">
         {label}
       </span>
     </div>

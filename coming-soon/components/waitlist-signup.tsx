@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShoppingBag, 
@@ -14,9 +14,12 @@ import {
   Users,
   Search,
   Gift,
-  Star
+  Star,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { FaInstagram, FaFacebook, FaTiktok, FaLinkedinIn, FaYoutube, FaTwitter } from 'react-icons/fa';
+import { useWaitlist } from '@/hooks/useWaitlist';
 
 type FormData = {
   firstName: string;
@@ -33,7 +36,7 @@ const referralOptions = [
   { value: 'linkedin', label: 'Linkedin', icon: FaLinkedinIn },
   { value: 'twitter', label: 'Twitter/X', icon: FaTwitter },
   { value: 'youtube', label: 'YouTube', icon: FaYoutube },
-  { value: 'ads', label: 'Online Ad (Google/Facebook/Instagram)', icon: TrendingUp },
+  { value: 'ads', label: 'Online Ads (Google, Facebook, Instagram)', icon: TrendingUp },
   { value: 'friend', label: 'Friend or Family', icon: Users },
   { value: 'google', label: 'Google Search', icon: Search },
   { value: 'event', label: 'Event / Expo', icon: Gift },
@@ -41,25 +44,60 @@ const referralOptions = [
 ];
 
 export function WaitlistSignup() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
-  const [submittedRole, setSubmittedRole] = useState<'customer' | 'vendor' | null>(null);
-  const { register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue, reset } = useForm<FormData>();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  
+  const { joinWaitlist, isLoading, error, isSuccess, submittedRole, reset: resetHookState } = useWaitlist();
+  
+  const { register, handleSubmit, formState: { errors }, watch, setValue, reset: resetForm } = useForm<FormData>();
   
   const selectedRole = watch('role');
   const selectedReferral = watch('referralSource');
   const selectedReferralOption = referralOptions.find(opt => opt.value === selectedReferral);
 
+  // Handle success state - only trigger once
+  useEffect(() => {
+    if (isSuccess && !showSuccess) {
+      resetForm();
+      setShowSuccess(true);
+      // Auto-hide success message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        resetHookState();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess, showSuccess, resetForm, resetHookState]);
+
+  // Handle error state - only trigger once
+  useEffect(() => {
+    if (error && !showError) {
+      setShowError(true);
+      // Auto-hide error message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+        resetHookState();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, showError, resetHookState]);
+
   const onSubmit = async (data: FormData) => {
-    console.log('Waitlist submission:', data);
-    setSubmittedRole(data.role);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    reset();
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
+    // Reset error/success display states before new submission
+    setShowSuccess(false);
+    setShowError(false);
+    await joinWaitlist({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      role: data.role,
+      referralSource: data.referralSource || undefined,
+    });
   };
 
-  if (isSubmitted) {
+  // Success Message
+  if (showSuccess) {
     const successMessage = submittedRole === 'vendor'
       ? {
           title: "You're on the list!",
@@ -74,6 +112,7 @@ export function WaitlistSignup() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
         className="p-6 bg-green-50 border border-green-200 rounded-xl text-center"
       >
         <div className="flex justify-center mb-3">
@@ -85,9 +124,37 @@ export function WaitlistSignup() {
     );
   }
 
+  // Error Message
+  if (showError && error) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="p-6 bg-red-50 border border-red-200 rounded-xl text-center"
+      >
+        <div className="flex justify-center mb-3">
+          <AlertCircle className="w-12 h-12 text-red-500" />
+        </div>
+        <h3 className="text-red-800 font-semibold text-lg mb-2">Something went wrong</h3>
+        <p className="text-red-600 text-sm">{error}</p>
+        <button
+          onClick={() => {
+            setShowError(false);
+            resetHookState();
+          }}
+          className="mt-4 text-sm text-red-600 hover:text-red-700 underline"
+        >
+          Try again
+        </button>
+      </motion.div>
+    );
+  }
+
+  // Form
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* First & Last Name - Side by side */}
+      {/* First & Last Name */}
       <div className="grid grid-cols-2 gap-3">
         <div>
           <div className="relative">
@@ -98,26 +165,28 @@ export function WaitlistSignup() {
               className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-500 border-brand-200 focus:border-brand-500 focus:outline-none transition-all"
               {...register('firstName', { required: 'First name is required' })}
             />
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
           </div>
           {errors.firstName && (
             <p className="text-red-500 text-xs mt-1 text-left">{errors.firstName.message}</p>
           )}
         </div>
         
-        <div>
+        <div className="relative">
           <input
             type="text"
             placeholder="Last name"
             className="w-full px-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-500 border-brand-200 focus:border-brand-500 focus:outline-none transition-all"
             {...register('lastName', { required: 'Last name is required' })}
           />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
           {errors.lastName && (
             <p className="text-red-500 text-xs mt-1 text-left">{errors.lastName.message}</p>
           )}
         </div>
       </div>
 
-      {/* Email field */}
+      {/* Email */}
       <div>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-500" />
@@ -129,10 +198,11 @@ export function WaitlistSignup() {
               required: 'Email is required',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address',
+                message: 'Please enter a valid email address',
               },
             })}
           />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
         </div>
         {errors.email && (
           <p className="text-red-500 text-xs mt-1 text-left">{errors.email.message}</p>
@@ -142,7 +212,7 @@ export function WaitlistSignup() {
       {/* Role Selection */}
       <div>
         <label className="block text-brand-600 text-sm mb-2 text-left font-medium">
-          I want to join as:
+          I want to join as: <span className="text-brand-500 text-sm font-semibold">*</span>
         </label>
         <div className="grid grid-cols-2 gap-3">
           <label
@@ -202,10 +272,10 @@ export function WaitlistSignup() {
         )}
       </div>
 
-      {/* Referral Source - Custom Select Dropdown */}
+      {/* Referral Source - Optional */}
       <div>
         <label className="block text-brand-600 text-sm mb-2 text-left font-medium">
-          How did you hear about us?
+          How did you hear about us? <span className="text-brand-400 text-xs font-normal">(Optional)</span>
         </label>
         <div className="relative">
           <button
@@ -261,19 +331,25 @@ export function WaitlistSignup() {
             )}
           </AnimatePresence>
         </div>
-        <input type="hidden" {...register('referralSource', { required: 'Please tell us how you heard about us' })} />
-        {errors.referralSource && (
-          <p className="text-red-500 text-xs mt-1">{errors.referralSource.message}</p>
-        )}
+        <input type="hidden" {...register('referralSource')} />
       </div>
       
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isLoading}
         className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-50 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
       >
-        {isSubmitting ? 'Joining Waitlist...' : 'Join Waitlist'}
-        <ArrowRight className="w-4 h-4" />
+        {isLoading ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            Joining Waitlist...
+          </>
+        ) : (
+          <>
+            Join Waitlist
+            <ArrowRight className="w-4 h-4" />
+          </>
+        )}
       </button>
     </form>
   );

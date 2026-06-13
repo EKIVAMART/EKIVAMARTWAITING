@@ -25,15 +25,14 @@ import {
   Play,
 } from 'lucide-react';
 import { FaInstagram, FaFacebookF, FaTiktok, FaLinkedinIn } from 'react-icons/fa';
-
-const launchDate = new Date(new Date().getFullYear(), 6, 1);
+import { waitlistApi } from '@/lib/api';
 
 // Trust indicators displayed in the stats section
 const promiseStats = [
-  { value: '100%', label: 'Secure Escrow', icon: Shield },
+  { value: '30+', label: 'Categories', icon: ShoppingBag },
+  { value: '100%', label: 'Local Vendors', icon: TrendingUp },
   { value: '0', label: 'Hidden Fees', icon: BadgeCheck },
   { value: '24/7', label: 'Support', icon: Clock },
-  { value: 'July', label: '2026 Launch', icon: Zap },
 ];
 
 // How it works steps - each covers both buyer and seller perspectives
@@ -41,22 +40,25 @@ const howItWorksSteps = [
   {
     icon: Package,
     title: 'Browse or list',
-    buyerDesc: 'Customers discover unique Nigerian fashion, crafts, beauty, and food from verified local sellers.',
-    sellerDesc: 'Vendors create a profile, get verified, and upload products in minutes.',
+    buyerDesc: 'Discover unique Nigerian fashion, crafts, beauty, food, and more from verified local sellers across different locations.',
+    sellerDesc: 'Vendors create a profile, get verified, and upload products across multiple categories — fashion, beauty, crafts, food, and more.',
   },
   {
     icon: ShoppingBag,
     title: 'Shop or get discovered',
-    buyerDesc: 'Shop with confidence — every seller is vetted and every product is reviewed before it goes live.',
-    sellerDesc: 'Our smart search puts your products in front of buyers across Nigeria actively looking for what you sell.',
+    buyerDesc: 'Find products from vendors in your area or anywhere in Nigeria. Every seller is vetted before they can list products.',
+    sellerDesc: 'Our smart search puts your products in front of buyers actively looking for what you sell — whether locally or nationwide.',
   },
   {
     icon: Shield,
-    title: 'Pay or get paid — safely',
-    buyerDesc: 'Your payment is held in escrow and only released once you confirm your order has arrived safely.',
-    sellerDesc: 'Once the buyer confirms delivery, funds land directly in your account — no delays, no disputes.',
+    title: 'Pay or get paid — your way',
+    buyerDesc: 'Choose upfront payment or pay on delivery when your order arrives. No hidden fees, no surprises.',
+    sellerDesc: 'Receive payments upfront or collect upon delivery confirmation — secure and reliable.',
   },
 ];
+
+// Fallback launch date - July 1st, 2026
+const FALLBACK_LAUNCH_DATE = new Date(2026, 6, 1, 0, 0, 0);
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,10 +67,30 @@ export default function Home() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
+  
+  // Launch date state - fetch from API or use fallback
+  const [launchDate, setLaunchDate] = useState<Date>(FALLBACK_LAUNCH_DATE);
 
   const slideChangeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const autoPlayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const liveRegionRef = useRef<HTMLDivElement>(null);
+
+  // Fetch launch date from API on mount
+  useEffect(() => {
+    const fetchLaunchDate = async () => {
+      try {
+        const config = await waitlistApi.getLaunchConfig();
+        const fetchedDate = new Date(config.launchDate);
+        if (!isNaN(fetchedDate.getTime())) {
+          setLaunchDate(fetchedDate);
+        }
+      } catch (error) {
+        // Silently fail - fallback date already set
+        console.error('Failed to fetch launch date:', error);
+      }
+    };
+    fetchLaunchDate();
+  }, []);
 
   const slides = [
     {
@@ -186,7 +208,7 @@ export default function Home() {
   const floatAnimation =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ? {}
-      : { animate: { y: [0, -10, 0] }, transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' } };
+      : { animate: { y: [0, -10, 0] }, transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' as const } };
 
   return (
     <main className="min-h-screen bg-white overflow-x-hidden">
@@ -223,13 +245,12 @@ export default function Home() {
             <a href="#waitlist" className="text-brand-700 hover:text-brand-900 text-sm font-medium transition-colors">
               Waitlist
             </a>
-            <a 
-              href="#footer" 
+            <a
+              href="#footer"
               onClick={(e) => {
                 e.preventDefault();
                 const footer = document.querySelector('footer');
                 footer?.scrollIntoView({ behavior: 'smooth' });
-                // Optional: Add a temporary highlight effect
                 const socialSection = footer?.querySelector('.social-section');
                 socialSection?.classList.add('ring-2', 'ring-brand-400', 'ring-offset-2', 'rounded-lg', 'transition-all', 'duration-300');
                 setTimeout(() => {
@@ -305,9 +326,9 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 shadow-sm border border-brand-100 mb-3">
               <Sparkles className="w-3 h-3 text-brand-600" aria-hidden="true" />
-              <span className="text-xs font-bold text-brand-700 tracking-wide">LAUNCHING SOON</span>
+              <span className="text-xs font-bold text-brand-700 tracking-wide">FAFLORA LAUNCHING SOON</span>
             </div>
-            <h3 className="text-brand-800 font-semibold text-sm md:text-base mb-4">Platform Launch Countdown</h3>
+            <h3 className="text-brand-800 font-semibold text-sm md:text-base mb-4">Nigeria's Premier Multi-Vendor Marketplace Arrives in...</h3>
             <CalendarCountdown targetDate={launchDate} />
           </div>
         </motion.section>
@@ -430,7 +451,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Shield size={12} className="text-brand-600" aria-hidden="true" />
-                    <span className="text-brand-700 text-xs font-semibold tracking-wide">Secure Escrow</span>
+                    <span className="text-brand-700 text-xs font-semibold tracking-wide">Secure payment</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Clock size={12} className="text-brand-600" aria-hidden="true" />
@@ -460,9 +481,8 @@ export default function Home() {
                       {['Fashion', 'Beauty', 'Crafts', 'Food', 'electronics'].map((cat, i) => (
                         <span
                           key={cat}
-                          className={`shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full ${
-                            i === 0 ? 'bg-brand-600 text-white' : 'bg-brand-50 text-brand-700 border border-brand-200'
-                          }`}
+                          className={`shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full ${i === 0 ? 'bg-brand-600 text-white' : 'bg-brand-50 text-brand-700 border border-brand-200'
+                            }`}
                         >
                           {cat}
                         </span>
@@ -501,7 +521,7 @@ export default function Home() {
                       <span className="text-[10px] text-brand-700 font-semibold">Secure checkout</span>
                       <div className="flex items-center gap-1">
                         <Shield className="w-3 h-3 text-brand-600" />
-                        <span className="text-[10px] text-brand-700 font-bold">Escrow</span>
+                        <span className="text-[10px] text-brand-700 font-bold">payment</span>
                       </div>
                     </div>
                   </div>
@@ -542,9 +562,8 @@ export default function Home() {
                     className="relative cursor-pointer"
                   >
                     <div
-                      className={`w-8 md:w-14 h-1.5 rounded-full transition-all duration-300 ${
-                        currentSlide === idx ? 'bg-brand-400' : 'bg-brand-900/30 hover:bg-brand-50'
-                      }`}
+                      className={`w-8 md:w-14 h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-brand-400' : 'bg-brand-900/30 hover:bg-brand-50'
+                        }`}
                     />
                     {currentSlide === idx && (
                       <motion.div
@@ -727,7 +746,7 @@ export default function Home() {
             <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold text-brand-800 mb-3">
               Why join Faflora?
             </h2>
-            <p className="text-brand-700 text-base max-w-xl mx-auto">Empowering local businesses and celebrating Nigerian creativity</p>
+            <p className="text-brand-700 text-base max-w-xl mx-auto">Empowering local businesses. Authentic top quality products.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -735,26 +754,26 @@ export default function Home() {
               {
                 icon: ShoppingBag,
                 title: 'For Customers',
-                desc: 'Shop authentic Nigerian products with secure payments and flexible plans.',
-                features: ['Buy Now, Pay Later', 'Secure Escrow', 'Nationwide Delivery'],
+                desc: 'Shop authentic Nigerian products from trusted local sellers across different categories and locations.',
+                features: ['Secure payments', 'Find vendors near you', 'Nationwide delivery', 'Multiple product categories'],
               },
               {
                 icon: TrendingUp,
                 title: 'For Vendors',
-                desc: 'Grow your business with powerful analytics and access to millions of buyers.',
-                features: ['Centralized Dashboard', 'Sales Analytics', 'Escrow Protection'],
+                desc: 'Grow your business by reaching customers in your area and across Nigeria.',
+                features: ['Sell across multiple categories', 'Location-based visibility', 'Sales analytics', 'Secure payments'],
               },
               {
                 icon: Shield,
                 title: 'Payment Protection',
-                desc: 'Funds held in escrow until delivery confirmation — zero risk for both sides.',
-                features: ['Fraud Detection', 'Dispute Resolution', 'Secure Gateways'],
+                desc: 'Choose what works for you — upfront payment or pay when you receive your order.',
+                features: ['No hidden fees', 'Pay on delivery', 'Upfront payment', 'Secure transactions'],
               },
               {
                 icon: BarChart3,
                 title: 'Data Insights',
-                desc: 'Access analytics to understand and grow your customer base over time.',
-                features: ['Performance Metrics', 'Customer Insights', 'Inventory Tracking'],
+                desc: 'Access analytics to understand your customers and grow your business over time.',
+                features: ['Performance metrics', 'Customer insights', 'Inventory tracking', 'Sales trends'],
               },
             ].map((b, idx) => (
               <motion.div
@@ -769,7 +788,9 @@ export default function Home() {
                   <b.icon className="w-5 h-5 text-brand-600" aria-hidden="true" />
                 </div>
                 <h3 className="text-base font-bold text-brand-800 mb-2">{b.title}</h3>
-                <p className="text-brand-700 text-sm leading-relaxed mb-4">{b.desc}</p>
+                <p className="text-brand-700 text-sm leading-relaxed mb-4 h-16 md:h-14">
+                  {b.desc}
+                </p>
                 <ul className="space-y-1.5">
                   {b.features.map(f => (
                     <li key={f} className="flex items-center gap-2 text-sm text-brand-700">
@@ -846,7 +867,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-brand-100">
+          <div className="mt-6 pt-4 border-brand-100">
             <p className="text-brand-800 text-xs font-medium text-center">
               © {new Date().getFullYear()} Faflora. All rights reserved. Shop smart. Shop Nigerian.
             </p>

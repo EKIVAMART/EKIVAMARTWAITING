@@ -3,42 +3,58 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Home } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function NotFound() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800">
       {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-brand-600 to-brand-700 opacity-10 blur-3xl"
-          animate={{ x: [0, 50, 0], y: [0, -50, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-tr from-accent-teal to-brand-600 opacity-10 blur-3xl"
-          animate={{ x: [0, -50, 0], y: [0, 50, 0] }}
-          transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-        />
-      </div>
+      {isMounted && (
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-brand-600 to-brand-700 opacity-10 blur-3xl"
+            animate={{ x: [0, 50, 0], y: [0, -50, 0] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-tr from-accent-teal to-brand-600 opacity-10 blur-3xl"
+            animate={{ x: [0, -50, 0], y: [0, 50, 0] }}
+            transition={{ duration: 8, repeat: Infinity, delay: 1 }}
+          />
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           {/* 404 Error Code */}
-          <motion.div
-            className="mb-8"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <h1 className="text-9xl font-bold bg-gradient-to-r from-brand-200 via-brand-300 to-brand-400 bg-clip-text text-transparent">
+          {isMounted && (
+            <motion.div
+              className="mb-8"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <h1 className="text-9xl font-bold bg-gradient-to-r from-brand-200 via-brand-300 to-brand-400 bg-clip-text text-transparent">
+                404
+              </h1>
+            </motion.div>
+          )}
+          {!isMounted && (
+            <h1 className="mb-8 text-9xl font-bold bg-gradient-to-r from-brand-200 via-brand-300 to-brand-400 bg-clip-text text-transparent">
               404
             </h1>
-          </motion.div>
+          )}
 
           {/* Error Message */}
           <motion.div

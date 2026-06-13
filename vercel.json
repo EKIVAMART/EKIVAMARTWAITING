@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd coming-soon && npm install && npm run build",
-  "outputDirectory": "coming-soon/.next",
-  "installCommand": "cd coming-soon && npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
   "framework": "nextjs"
 }

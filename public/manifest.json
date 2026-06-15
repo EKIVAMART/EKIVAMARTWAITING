@@ -1,0 +1,15 @@
+{
+  "name": "Faflora",
+  "short_name": "Faflora",
+  "description": "Nigeria's Premier Multi-Vendor Marketplace",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#9d4ae3",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "type": "image/png"
+    }
+  ]
+}

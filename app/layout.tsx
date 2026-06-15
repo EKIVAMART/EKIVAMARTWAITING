@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     siteName: 'Faflora',
     images: [
       {
-        url: '/logo.png',
-        width: 512,
-        height: 512,
+        url: '/fa_logo_brand.png',
+        width: 1200,
+        height: 630,
         alt: 'Faflora Logo',
       },
     ],
@@ -41,12 +41,13 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Faflora - Something Amazing is Coming',
     description: 'Nigeria\'s premier multi-vendor marketplace is launching. Join the waitlist for early access!',
-    images: ['/logo.png'],
+    images: ['/fa_logo_brand.png'],
   },
   icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -56,6 +57,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <head>
+        {/* meta tags for PWA support */}
+        <meta name="theme-color" content="#9d4ae3" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Faflora" />
+        <meta name="msapplication-TileColor" content="#9d4ae3" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="Faflora" />
+      </head>
       <body className={inter.className}>
         {children}
         <DraggableWhatsAppButton />

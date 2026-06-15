@@ -18,7 +18,8 @@ import {
   AlertCircle,
   Loader2
 } from 'lucide-react';
-import { FaInstagram, FaFacebook, FaTiktok, FaLinkedinIn, FaYoutube, FaTwitter } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaTiktok, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { useWaitlist } from '@/hooks/useWaitlist';
 
 type FormData = {
@@ -34,7 +35,7 @@ const referralOptions = [
   { value: 'facebook', label: 'Facebook', icon: FaFacebook },
   { value: 'tiktok', label: 'Tiktok', icon: FaTiktok },
   { value: 'linkedin', label: 'Linkedin', icon: FaLinkedinIn },
-  { value: 'twitter', label: 'Twitter/X', icon: FaTwitter },
+  { value: 'twitter', label: 'Twitter/X', icon: FaXTwitter },
   { value: 'youtube', label: 'YouTube', icon: FaYoutube },
   { value: 'ads', label: 'Online Ads (Google, Facebook, Instagram)', icon: TrendingUp },
   { value: 'friend', label: 'Friend or Family', icon: Users },

@@ -25,6 +25,7 @@ import {
   Play,
 } from 'lucide-react';
 import { FaInstagram, FaFacebookF, FaTiktok, FaLinkedinIn } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { waitlistApi } from '@/lib/api';
 
 // Trust indicators displayed in the stats section
@@ -225,7 +226,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Image
-              src="/logo.png"
+              src="/fa_logo_brand.png"
               alt="Faflora home"
               width={120}
               height={40}
@@ -328,7 +329,7 @@ export default function Home() {
               <Sparkles className="w-3 h-3 text-brand-600" aria-hidden="true" />
               <span className="text-xs font-bold text-brand-700 tracking-wide">FAFLORA LAUNCHING SOON</span>
             </div>
-            <h3 className="text-brand-800 font-semibold text-sm md:text-base mb-4">Nigeria's Premier Multi-Vendor Marketplace Arrives in...</h3>
+            <h3 className="text-brand-800 font-semibold text-sm md:text-base mb-4">Nigeria's Premier Multi-Vendor Marketplace arrives in...</h3>
             <CalendarCountdown targetDate={launchDate} />
           </div>
         </motion.section>
@@ -357,23 +358,47 @@ export default function Home() {
 
           {/* Previous Slide Button */}
           <button
-            onClick={() => handleManualNavigation(goToPrevSlide)}
-            className="absolute left-3 md:left-8 z-20"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleManualNavigation(goToPrevSlide);
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              handleManualNavigation(goToPrevSlide);
+            }}
+            className="absolute left-3 md:left-8 z-50 touch-manipulation cursor-pointer active:opacity-70"
+            style={{ 
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent',
+              pointerEvents: 'auto'
+            }}
             aria-label="Previous slide"
           >
-            <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow border border-brand-200 flex items-center justify-center hover:border-brand-400 hover:bg-brand-50 transition-all duration-200">
-              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-brand-700" aria-hidden="true" />
+            <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow-lg border border-brand-200 flex items-center justify-center hover:border-brand-400 hover:bg-brand-50 transition-all duration-200">
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-brand-700 pointer-events-none" aria-hidden="true" />
             </div>
           </button>
 
           {/* Next Slide Button */}
           <button
-            onClick={() => handleManualNavigation(goToNextSlide)}
-            className="absolute right-3 md:right-8 z-20"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleManualNavigation(goToNextSlide);
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              handleManualNavigation(goToNextSlide);
+            }}
+            className="absolute right-3 md:right-8 z-50 touch-manipulation cursor-pointer active:opacity-70"
+            style={{ 
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent',
+              pointerEvents: 'auto'
+            }}
             aria-label="Next slide"
           >
-            <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow border border-brand-200 flex items-center justify-center hover:border-brand-400 hover:bg-brand-50 transition-all duration-200">
-              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-brand-700" aria-hidden="true" />
+            <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow-lg border border-brand-200 flex items-center justify-center hover:border-brand-400 hover:bg-brand-50 transition-all duration-200">
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-brand-700 pointer-events-none" aria-hidden="true" />
             </div>
           </button>
 
@@ -460,7 +485,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Right Column - App Preview Card */}
+              {/* Right Column - App Preview Image */}
               <FadeInSection
                 key={`card-${currentSlide}`}
                 type="slideLeft"
@@ -470,64 +495,26 @@ export default function Home() {
                 className="flex justify-center"
               >
                 <motion.div className="relative" aria-hidden="true" {...floatAnimation}>
-                  <div className="w-60 md:w-[300px] rounded-3xl shadow-2xl border border-brand-100 overflow-hidden bg-white">
-                    <div className="bg-brand-700 px-5 py-4 flex items-center justify-between">
-                      <Image src="/logo.png" alt="" width={80} height={24} className="h-6 w-auto object-contain brightness-0 invert" />
-                      <span className="text-white text-[10px] font-bold tracking-widest uppercase">Preview</span>
-                    </div>
-
-                    {/* Category Pills */}
-                    <div className="flex gap-2 px-4 pt-3 pb-2 overflow-x-auto no-scrollbar">
-                      {['Fashion', 'Beauty', 'Crafts', 'Food', 'electronics'].map((cat, i) => (
-                        <span
-                          key={cat}
-                          className={`shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full ${i === 0 ? 'bg-brand-600 text-white' : 'bg-brand-50 text-brand-700 border border-brand-200'
-                            }`}
-                        >
-                          {cat}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Product Grid */}
-                    <div className="grid grid-cols-2 gap-2.5 px-4 pb-4">
-                      {[
-                        { name: 'Ankara Tote', price: '₦4,500', color: 'from-brand-100 to-brand-200' },
-                        { name: 'Shea Butter', price: '₦2,200', color: 'from-purple-100 to-purple-200' },
-                        { name: 'Beaded Necklace', price: '₦6,800', color: 'from-teal-100 to-teal-200' },
-                        { name: 'Suya Spice Kit', price: '₦3,100', color: 'from-amber-100 to-amber-200' },
-                        { name: 'Agbada Flair', price: '₦12,500', color: 'from-indigo-100 to-indigo-200' },
-                        { name: 'Beaded Sandals', price: '₦5,900', color: 'from-pink-100 to-pink-200' },
-                      ].map((p, i) => (
-                        <motion.div
-                          key={p.name}
-                          className="rounded-xl overflow-hidden border border-brand-100 bg-white"
-                          animate={{ opacity: [0.85, 1, 0.85] }}
-                          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
-                        >
-                          <div className={`h-14 bg-gradient-to-br ${p.color} flex items-center justify-center`}>
-                            <ShoppingBag className="w-5 h-5 text-brand-600 opacity-60" />
-                          </div>
-                          <div className="p-2">
-                            <p className="text-[9px] font-bold text-brand-800 truncate">{p.name}</p>
-                            <p className="text-[9px] text-brand-700 font-semibold">{p.price}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    {/* Checkout Footer */}
-                    <div className="border-t border-brand-100 px-4 py-2.5 flex items-center justify-between bg-brand-50">
-                      <span className="text-[10px] text-brand-700 font-semibold">Secure checkout</span>
-                      <div className="flex items-center gap-1">
-                        <Shield className="w-3 h-3 text-brand-600" />
-                        <span className="text-[10px] text-brand-700 font-bold">payment</span>
-                      </div>
+                  {/* Oval shadow under the image */}
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] h-6 bg-black/15 rounded-[50%] blur-md" />
+                  
+                  <div className="w-60 md:w-[300px] rounded-b-[50px] rounded-t-[45px] shadow-xl border border-brand-100 overflow-hidden bg-white relative">
+                    {/* App Preview Image */}
+                    <div className="relative">
+                      <Image
+                        src="/App preview.png"
+                        alt="Faflora App Preview"
+                        width={300}
+                        height={500}
+                        className="w-full h-auto object-cover"
+                        priority
+                      />
                     </div>
                   </div>
 
+                  {/* "Coming July 2026" badge */}
                   <motion.div
-                    className="absolute -top-3 -right-3 bg-brand-600 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-lg"
+                    className="absolute -top-3 -right-3 bg-brand-600 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-lg whitespace-nowrap"
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
@@ -695,7 +682,7 @@ export default function Home() {
 
                     <div className="flex items-start gap-2.5 md:justify-center mb-2.5">
                       <div className="mt-1.5 shrink-0 w-2.5 h-2.5 rounded-full bg-brand-600" aria-hidden="true" />
-                      <p className="text-brand-700 text-sm leading-relaxed text-left">{step.buyerDesc}</p>
+                      <p className="text-brand-700 text-sm md:h-30 lg:h-auto leading-relaxed text-left">{step.buyerDesc}</p>
                     </div>
 
                     <div className="flex items-start gap-2.5 md:justify-center">
@@ -838,7 +825,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 md:gap-4">
             <div className="flex justify-center md:justify-start">
-              <Image src="/logo.png" alt="Faflora" width={110} height={36} className="h-9 w-auto object-contain" loading="eager" />
+              <Image src="/fa_logo_brand.png" alt="Faflora" width={110} height={36} className="h-9 w-auto object-contain" loading="eager" />
             </div>
 
             <div id="social-section" className="flex flex-col items-center gap-2 social-section">
@@ -846,9 +833,10 @@ export default function Home() {
               <nav aria-label="Social media links">
                 <div className="flex gap-3">
                   {[
-                    { href: 'https://instagram.com/faflora', Icon: FaInstagram, label: 'Faflora on Instagram' },
-                    { href: 'https://facebook.com/faflora', Icon: FaFacebookF, label: 'Faflora on Facebook' },
-                    { href: 'https://tiktok.com/@faflora', Icon: FaTiktok, label: 'Faflora on TikTok' },
+                    { href: 'https://www.instagram.com/faflora_ng', Icon: FaInstagram, label: 'Faflora on Instagram' },
+                    { href: 'https://x.com/Faflora_NG', Icon: FaXTwitter, label: 'Faflora on X' },
+                    { href: 'https://www.facebook.com/share/1BejkDJRD7/', Icon: FaFacebookF, label: 'Faflora on Facebook' },
+                    { href: 'https://www.tiktok.com/@faflora_ng?_r=1&_t=ZS-97CvHn44PK5', Icon: FaTiktok, label: 'Faflora on TikTok' },
                     { href: 'https://linkedin.com/company/faflora', Icon: FaLinkedinIn, label: 'Faflora on LinkedIn' },
                   ].map(({ href, Icon, label }) => (
                     <a

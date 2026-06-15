@@ -58,8 +58,8 @@ const howItWorksSteps = [
   },
 ];
 
-// Fallback launch date - July 1st, 2026
-const FALLBACK_LAUNCH_DATE = new Date(2026, 6, 1, 0, 0, 0);
+// Fallback launch date - July 6th, 2026
+const FALLBACK_LAUNCH_DATE = new Date(2026, 6, 6, 8, 0, 0);
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);

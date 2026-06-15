@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/icon.PNG',
-    apple: '/icon.PNG',
+    apple: '/apple-icon.png',
   },
   manifest: '/manifest.json',
 };

@@ -180,7 +180,7 @@ export function WaitlistSignup() {
             setShowError(false);
             resetHookState();
           }}
-          className="mt-4 text-sm text-brand-600 hover:text-brand-700 underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded px-2 py-1"
+          className="mt-4 text-sm text-brand-600 hover:text-brand-700 underline rounded px-2 py-1"
           aria-label="Try again"
         >
           Try again
@@ -202,7 +202,7 @@ export function WaitlistSignup() {
               id="firstName"
               type="text"
               placeholder="First name"
-              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 transition-all"
               aria-required="true"
               aria-invalid={!!errors.firstName}
               aria-describedby={errors.firstName ? "firstName-error" : undefined}
@@ -224,7 +224,7 @@ export function WaitlistSignup() {
               id="lastName"
               type="text"
               placeholder="Last name"
-              className="w-full px-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+              className="w-full px-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 transition-all"
               aria-required="true"
               aria-invalid={!!errors.lastName}
               aria-describedby={errors.lastName ? "lastName-error" : undefined}
@@ -249,7 +249,7 @@ export function WaitlistSignup() {
             id="email"
             type="email"
             placeholder="Email address"
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 transition-all"
             aria-required="true"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
@@ -356,7 +356,7 @@ export function WaitlistSignup() {
             ref={referralButtonRef}
             type="button"
             onClick={() => setIsReferralOpen(!isReferralOpen)}
-            className="w-full px-4 py-3 rounded-xl border-2 bg-white text-left flex items-center justify-between border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+            className="w-full px-4 py-3 rounded-xl border-2 bg-white text-left flex items-center justify-between border-brand-200 focus:border-brand-500 transition-all"
             aria-haspopup="listbox"
             aria-expanded={isReferralOpen}
             aria-labelledby="referral-label"
@@ -397,7 +397,7 @@ export function WaitlistSignup() {
                       setValue('referralSource', option.value);
                       setIsReferralOpen(false);
                     }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-brand-50 transition-colors text-left focus:outline-none focus:bg-brand-50 focus:ring-2 focus:ring-brand-500 focus:ring-inset ${
+                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-brand-50 transition-colors text-left ${
                       selectedReferral === option.value ? 'bg-brand-50 text-brand-800' : 'text-brand-700'
                     }`}
                     role="option"
@@ -420,7 +420,7 @@ export function WaitlistSignup() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2"
+        className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         aria-busy={isLoading}
       >
         {isLoading ? (

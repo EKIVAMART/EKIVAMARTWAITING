@@ -238,7 +238,7 @@ export function WaitlistSignup() {
             </div>
             <span className={`font-semibold text-sm ${
               selectedRole === 'customer' ? 'text-brand-800' : 'text-brand-600'
-            }`}>User</span>
+            }`}>Customer </span>
             <span className="text-xs text-brand-500">Shop authentic products</span>
           </label>
           

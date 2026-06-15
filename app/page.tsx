@@ -501,7 +501,7 @@ export default function Home() {
                     {/* App Preview Image */}
                     <div className="relative">
                       <Image
-                        src="/App preview.png"
+                        src="/app_preview.png"
                         alt="Faflora App Preview"
                         width={300}
                         height={500}

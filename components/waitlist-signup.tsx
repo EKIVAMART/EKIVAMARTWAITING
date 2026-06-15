@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShoppingBag, 
@@ -49,6 +49,9 @@ export function WaitlistSignup() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   
+  const referralButtonRef = useRef<HTMLButtonElement>(null);
+  const referralMenuRef = useRef<HTMLDivElement>(null);
+  
   const { joinWaitlist, isLoading, error, isSuccess, submittedRole, reset: resetHookState } = useWaitlist();
   
   const { register, handleSubmit, formState: { errors }, watch, setValue, reset: resetForm } = useForm<FormData>();
@@ -57,12 +60,41 @@ export function WaitlistSignup() {
   const selectedReferral = watch('referralSource');
   const selectedReferralOption = referralOptions.find(opt => opt.value === selectedReferral);
 
-  // Handle success state - only trigger once
+  // Close referral dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isReferralOpen &&
+        referralButtonRef.current &&
+        !referralButtonRef.current.contains(event.target as Node) &&
+        referralMenuRef.current &&
+        !referralMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsReferralOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isReferralOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isReferralOpen) {
+        setIsReferralOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isReferralOpen]);
+
+  // Handle success state
   useEffect(() => {
     if (isSuccess && !showSuccess) {
       resetForm();
       setShowSuccess(true);
-      // Auto-hide success message after 5 seconds
       const timer = setTimeout(() => {
         setShowSuccess(false);
         resetHookState();
@@ -71,11 +103,10 @@ export function WaitlistSignup() {
     }
   }, [isSuccess, showSuccess, resetForm, resetHookState]);
 
-  // Handle error state - only trigger once
+  // Handle error state
   useEffect(() => {
     if (error && !showError) {
       setShowError(true);
-      // Auto-hide error message after 5 seconds
       const timer = setTimeout(() => {
         setShowError(false);
         resetHookState();
@@ -85,7 +116,6 @@ export function WaitlistSignup() {
   }, [error, showError, resetHookState]);
 
   const onSubmit = async (data: FormData) => {
-    // Reset error/success display states before new submission
     setShowSuccess(false);
     setShowError(false);
     await joinWaitlist({
@@ -97,7 +127,7 @@ export function WaitlistSignup() {
     });
   };
 
-  // Success Message
+  // Success Message - Consistent with page.tsx styling
   if (showSuccess) {
     const successMessage = submittedRole === 'vendor'
       ? {
@@ -115,17 +145,20 @@ export function WaitlistSignup() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="p-6 bg-green-50 border border-green-200 rounded-xl text-center"
+        role="status"
+        aria-live="polite"
+        aria-label="Success notification"
       >
-        <div className="flex justify-center mb-3">
+        <div className="flex justify-center mb-3" aria-hidden="true">
           <CheckCircle className="w-12 h-12 text-green-600" />
         </div>
         <h3 className="text-brand-800 font-semibold text-lg mb-2">{successMessage.title}</h3>
-        <p className="text-brand-500 text-sm">{successMessage.message}</p>
+        <p className="text-brand-600 text-sm">{successMessage.message}</p>
       </motion.div>
     );
   }
 
-  // Error Message
+  // Error Message - Consistent with page.tsx styling
   if (showError && error) {
     return (
       <motion.div
@@ -133,18 +166,22 @@ export function WaitlistSignup() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="p-6 bg-red-50 border border-red-200 rounded-xl text-center"
+        role="alert"
+        aria-live="assertive"
+        aria-label="Error notification"
       >
-        <div className="flex justify-center mb-3">
+        <div className="flex justify-center mb-3" aria-hidden="true">
           <AlertCircle className="w-12 h-12 text-red-500" />
         </div>
-        <h3 className="text-red-800 font-semibold text-lg mb-2">Something went wrong</h3>
-        <p className="text-red-600 text-sm">{error}</p>
+        <h3 className="text-brand-800 font-semibold text-lg mb-2">Something went wrong</h3>
+        <p className="text-brand-600 text-sm">{error}</p>
         <button
           onClick={() => {
             setShowError(false);
             resetHookState();
           }}
-          className="mt-4 text-sm text-red-600 hover:text-red-700 underline"
+          className="mt-4 text-sm text-brand-600 hover:text-brand-700 underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded px-2 py-1"
+          aria-label="Try again"
         >
           Try again
         </button>
@@ -154,35 +191,51 @@ export function WaitlistSignup() {
 
   // Form
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       {/* First & Last Name */}
       <div className="grid grid-cols-2 gap-3">
         <div>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-500" />
+            <label htmlFor="firstName" className="sr-only">First name</label>
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-500" aria-hidden="true" />
             <input
+              id="firstName"
               type="text"
               placeholder="First name"
-              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-500 border-brand-200 focus:border-brand-500 focus:outline-none transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+              aria-required="true"
+              aria-invalid={!!errors.firstName}
+              aria-describedby={errors.firstName ? "firstName-error" : undefined}
               {...register('firstName', { required: 'First name is required' })}
             />
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold" aria-hidden="true">*</span>
           </div>
           {errors.firstName && (
-            <p className="text-red-500 text-xs mt-1 text-left">{errors.firstName.message}</p>
+            <p id="firstName-error" className="text-red-500 text-xs mt-1 text-left" role="alert">
+              {errors.firstName.message}
+            </p>
           )}
         </div>
         
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Last name"
-            className="w-full px-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-500 border-brand-200 focus:border-brand-500 focus:outline-none transition-all"
-            {...register('lastName', { required: 'Last name is required' })}
-          />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
+        <div>
+          <div className="relative">
+            <label htmlFor="lastName" className="sr-only">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Last name"
+              className="w-full px-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+              aria-required="true"
+              aria-invalid={!!errors.lastName}
+              aria-describedby={errors.lastName ? "lastName-error" : undefined}
+              {...register('lastName', { required: 'Last name is required' })}
+            />
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold" aria-hidden="true">*</span>
+          </div>
           {errors.lastName && (
-            <p className="text-red-500 text-xs mt-1 text-left">{errors.lastName.message}</p>
+            <p id="lastName-error" className="text-red-500 text-xs mt-1 text-left" role="alert">
+              {errors.lastName.message}
+            </p>
           )}
         </div>
       </div>
@@ -190,11 +243,16 @@ export function WaitlistSignup() {
       {/* Email */}
       <div>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-500" />
+          <label htmlFor="email" className="sr-only">Email address</label>
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-500" aria-hidden="true" />
           <input
+            id="email"
             type="email"
             placeholder="Email address"
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-500 border-brand-200 focus:border-brand-500 focus:outline-none transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-brand-800 placeholder:text-brand-400 border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+            aria-required="true"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "email-error" : undefined}
             {...register('email', {
               required: 'Email is required',
               pattern: {
@@ -203,111 +261,133 @@ export function WaitlistSignup() {
               },
             })}
           />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold">*</span>
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-500 text-sm font-semibold" aria-hidden="true">*</span>
         </div>
         {errors.email && (
-          <p className="text-red-500 text-xs mt-1 text-left">{errors.email.message}</p>
+          <p id="email-error" className="text-red-500 text-xs mt-1 text-left" role="alert">
+            {errors.email.message}
+          </p>
         )}
       </div>
 
       {/* Role Selection */}
       <div>
-        <label className="block text-brand-600 text-sm mb-2 text-left font-medium">
-          I want to join as: <span className="text-brand-500 text-sm font-semibold">*</span>
-        </label>
-        <div className="grid grid-cols-2 gap-3">
-          <label
-            className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border-2 transition-all ${
-              selectedRole === 'customer'
-                ? 'bg-brand-50 border-brand-500 shadow-md'
-                : 'bg-white border-brand-200 hover:border-brand-300 hover:bg-brand-50/50'
-            }`}
-          >
-            <input
-              type="radio"
-              value="customer"
-              className="hidden"
-              {...register('role', { required: 'Please select a role' })}
-            />
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-              selectedRole === 'customer' ? 'bg-brand-600' : 'bg-brand-100'
-            }`}>
-              <ShoppingBag className={`w-5 h-5 ${
-                selectedRole === 'customer' ? 'text-white' : 'text-brand-600'
-              }`} />
-            </div>
-            <span className={`font-semibold text-sm ${
-              selectedRole === 'customer' ? 'text-brand-800' : 'text-brand-500'
-            }`}>User</span>
-            <span className="text-xs text-brand-500">Shop authentic products</span>
-          </label>
+        <fieldset>
+          <legend className="text-brand-700 text-sm mb-2 text-left font-medium">
+            I want to join as: <span className="text-brand-500 text-sm font-semibold" aria-hidden="true">*</span>
+          </legend>
           
-          <label
-            className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border-2 transition-all ${
-              selectedRole === 'vendor'
-                ? 'bg-brand-50 border-brand-500 shadow-md'
-                : 'bg-white border-brand-200 hover:border-brand-300 hover:bg-brand-50/50'
-            }`}
-          >
-            <input
-              type="radio"
-              value="vendor"
-              className="hidden"
-              {...register('role', { required: 'Please select a role' })}
-            />
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-              selectedRole === 'vendor' ? 'bg-brand-600' : 'bg-brand-100'
-            }`}>
-              <TrendingUp className={`w-5 h-5 ${
-                selectedRole === 'vendor' ? 'text-white' : 'text-brand-600'
-              }`} />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <input
+                type="radio"
+                id="role-customer"
+                value="customer"
+                className="hidden peer/customer"
+                {...register('role', { required: 'Please select a role' })}
+              />
+              <label
+                htmlFor="role-customer"
+                className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border-2 transition-all peer-checked/customer:bg-brand-50 peer-checked/customer:border-brand-500 peer-checked/customer:shadow-md ${
+                  selectedRole === 'customer'
+                    ? 'bg-brand-50 border-brand-500 shadow-md'
+                    : 'bg-white border-brand-200 hover:border-brand-300 hover:bg-brand-50/50'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
+                  selectedRole === 'customer' ? 'bg-brand-600' : 'bg-brand-100'
+                }`} aria-hidden="true">
+                  <ShoppingBag className={`w-5 h-5 ${
+                    selectedRole === 'customer' ? 'text-white' : 'text-brand-600'
+                  }`} aria-hidden="true" />
+                </div>
+                <span className={`font-semibold text-sm ${
+                  selectedRole === 'customer' ? 'text-brand-800' : 'text-brand-600'
+                }`}>Customer</span>
+                <span className="text-xs text-brand-500">Shop authentic products</span>
+              </label>
             </div>
-            <span className={`font-semibold text-sm ${
-              selectedRole === 'vendor' ? 'text-brand-800' : 'text-brand-500'
-            }`}>Vendor</span>
-            <span className="text-xs text-brand-500">Grow your business</span>
-          </label>
-        </div>
-        {errors.role && (
-          <p className="text-red-500 text-xs mt-1">{errors.role.message}</p>
-        )}
+            
+            <div>
+              <input
+                type="radio"
+                id="role-vendor"
+                value="vendor"
+                className="hidden peer/vendor"
+                {...register('role', { required: 'Please select a role' })}
+              />
+              <label
+                htmlFor="role-vendor"
+                className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border-2 transition-all peer-checked/vendor:bg-brand-50 peer-checked/vendor:border-brand-500 peer-checked/vendor:shadow-md ${
+                  selectedRole === 'vendor'
+                    ? 'bg-brand-50 border-brand-500 shadow-md'
+                    : 'bg-white border-brand-200 hover:border-brand-300 hover:bg-brand-50/50'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
+                  selectedRole === 'vendor' ? 'bg-brand-600' : 'bg-brand-100'
+                }`} aria-hidden="true">
+                  <TrendingUp className={`w-5 h-5 ${
+                    selectedRole === 'vendor' ? 'text-white' : 'text-brand-600'
+                  }`} aria-hidden="true" />
+                </div>
+                <span className={`font-semibold text-sm ${
+                  selectedRole === 'vendor' ? 'text-brand-800' : 'text-brand-600'
+                }`}>Vendor</span>
+                <span className="text-xs text-brand-500">Grow your business</span>
+              </label>
+            </div>
+          </div>
+          {errors.role && (
+            <p id="role-error" className="text-red-500 text-xs mt-1" role="alert">
+              {errors.role.message}
+            </p>
+          )}
+        </fieldset>
       </div>
 
       {/* Referral Source - Optional */}
       <div>
-        <label className="block text-brand-600 text-sm mb-2 text-left font-medium">
+        <label id="referral-label" className="block text-brand-700 text-sm mb-2 text-left font-medium">
           How did you hear about us? <span className="text-brand-400 text-xs font-normal">(Optional)</span>
         </label>
         <div className="relative">
           <button
+            ref={referralButtonRef}
             type="button"
             onClick={() => setIsReferralOpen(!isReferralOpen)}
-            className="w-full px-4 py-3 rounded-xl border-2 bg-white text-left flex items-center justify-between border-brand-200 focus:border-brand-500 transition-all"
+            className="w-full px-4 py-3 rounded-xl border-2 bg-white text-left flex items-center justify-between border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-1 transition-all"
+            aria-haspopup="listbox"
+            aria-expanded={isReferralOpen}
+            aria-labelledby="referral-label"
           >
             <div className="flex items-center gap-2">
               {selectedReferralOption ? (
                 <>
-                  <selectedReferralOption.icon className="w-5 h-5 text-brand-500" />
+                  <selectedReferralOption.icon className="w-5 h-5 text-brand-500" aria-hidden="true" />
                   <span className="text-brand-800">{selectedReferralOption.label}</span>
                 </>
               ) : (
                 <>
-                  <Star className="w-5 h-5 text-brand-500" />
+                  <Star className="w-5 h-5 text-brand-500" aria-hidden="true" />
                   <span className="text-brand-500">Select an option</span>
                 </>
               )}
             </div>
-            <ChevronDown className={`w-5 h-5 text-brand-500 transition-transform duration-200 ${isReferralOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-5 h-5 text-brand-500 transition-transform duration-200 ${isReferralOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
           </button>
           
           <AnimatePresence>
             {isReferralOpen && (
               <motion.div
+                ref={referralMenuRef}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
                 className="absolute top-full left-0 right-0 mt-2 bg-white border border-brand-200 rounded-xl shadow-lg z-10 max-h-64 overflow-y-auto"
+                role="listbox"
+                aria-labelledby="referral-label"
               >
                 {referralOptions.map((option) => (
                   <button
@@ -317,14 +397,16 @@ export function WaitlistSignup() {
                       setValue('referralSource', option.value);
                       setIsReferralOpen(false);
                     }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-brand-50 transition-colors text-left ${
+                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-brand-50 transition-colors text-left focus:outline-none focus:bg-brand-50 focus:ring-2 focus:ring-brand-500 focus:ring-inset ${
                       selectedReferral === option.value ? 'bg-brand-50 text-brand-800' : 'text-brand-700'
                     }`}
+                    role="option"
+                    aria-selected={selectedReferral === option.value}
                   >
-                    <option.icon className="w-5 h-5 text-brand-500" />
+                    <option.icon className="w-5 h-5 text-brand-500" aria-hidden="true" />
                     <span className="text-sm">{option.label}</span>
                     {selectedReferral === option.value && (
-                      <CheckCircle className="w-4 h-4 text-brand-600 ml-auto" />
+                      <CheckCircle className="w-4 h-4 text-brand-600 ml-auto" aria-hidden="true" />
                     )}
                   </button>
                 ))}
@@ -338,17 +420,18 @@ export function WaitlistSignup() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-50 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2"
+        aria-busy={isLoading}
       >
         {isLoading ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
+            <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
             Joining Waitlist...
           </>
         ) : (
           <>
             Join Waitlist
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </>
         )}
       </button>

@@ -581,7 +581,7 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="h-12 bg-gradient-to-b from-white to-brand-50/60 relative z-10" aria-hidden="true" />
+        <div className="h-11 bg-gradient-to-b from-white to-brand-50/60 relative z-10" aria-hidden="true" />
       </div>
 
       {/* Trust Indicators Section */}

@@ -598,7 +598,7 @@ export default function Home() {
                 className="text-center p-5 bg-white rounded-2xl border border-brand-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div className="flex justify-center mb-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
+                  <div className="w-9 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
                     <s.icon className="w-4 h-4 text-brand-600" aria-hidden="true" />
                   </div>
                 </div>

@@ -19,7 +19,6 @@ import {
   ChevronRight,
   CheckCircle,
   Package,
-  Zap,
   BadgeCheck,
   Pause,
   Play,
@@ -508,6 +507,7 @@ export default function Home() {
                         height={500}
                         className="w-full h-auto object-cover"
                         priority
+                        fetchPriority="high"
                       />
                     </div>
                   </div>

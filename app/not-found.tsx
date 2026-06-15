@@ -90,7 +90,7 @@ export default function NotFound() {
             </Link>
 
             <motion.a
-              href="#waitlist"
+              href="/#waitlist"
               whileHover={{ scale: 1.05, translateY: -2 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 rounded-lg border border-brand-400 px-8 py-3 font-semibold text-brand-200 transition-all hover:bg-brand-400/10"

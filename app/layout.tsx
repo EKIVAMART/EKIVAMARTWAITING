@@ -3,13 +3,13 @@ import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import DraggableWhatsAppButton from "@/components/WhatsappContactButton";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({ 
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
   display: 'swap',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Faflora' }],
   openGraph: {
     title: 'Faflora - Something Amazing is Coming',
-    description: 'Nigeria\'s premier multi-vendor marketplace is launching. Join the waitlist for early access!',
+    description: "Nigeria's premier multi-vendor marketplace is launching. Join the waitlist for early access! Shop authentic local products or grow your business as a vendor.",
     url: 'https://faflora.com',
     siteName: 'Faflora',
     images: [
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
     images: ['/fa_logo_brand.png'],
   },
   icons: {
-    icon: '/icon.png',
-    apple: '/icon.png',
+    icon: '/icon.PNG',
+    apple: '/icon.PNG',
   },
   manifest: '/manifest.json',
 };

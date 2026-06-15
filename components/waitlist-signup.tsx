@@ -237,7 +237,7 @@ export function WaitlistSignup() {
               }`} />
             </div>
             <span className={`font-semibold text-sm ${
-              selectedRole === 'customer' ? 'text-brand-800' : 'text-brand-600'
+              selectedRole === 'customer' ? 'text-brand-800' : 'text-brand-500'
             }`}>User</span>
             <span className="text-xs text-brand-500">Shop authentic products</span>
           </label>
@@ -263,7 +263,7 @@ export function WaitlistSignup() {
               }`} />
             </div>
             <span className={`font-semibold text-sm ${
-              selectedRole === 'vendor' ? 'text-brand-800' : 'text-brand-600'
+              selectedRole === 'vendor' ? 'text-brand-800' : 'text-brand-500'
             }`}>Vendor</span>
             <span className="text-xs text-brand-500">Grow your business</span>
           </label>

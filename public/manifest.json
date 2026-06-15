@@ -8,7 +8,7 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/icon.PNG",
       "type": "image/png"
     }
   ]

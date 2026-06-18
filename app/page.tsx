@@ -549,7 +549,7 @@ export default function Home() {
                     className="relative cursor-pointer"
                   >
                     <div
-                      className={`w-8 md:w-14 h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-brand-400' : 'bg-brand-900/30 hover:bg-brand-50'
+                      className={`w-8 md:w-13 h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-brand-400' : 'bg-brand-900/30 hover:bg-brand-50'
                         }`}
                     />
                     {currentSlide === idx && (

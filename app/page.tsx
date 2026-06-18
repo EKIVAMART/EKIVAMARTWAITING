@@ -320,7 +320,7 @@ export default function Home() {
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative z-10 pt-7 pb-3 md:pt-10 md:pb-4"
+          className="relative z-10 pt-7 pb-1 md:pt-10 md:pb-4"
           aria-label="Launch countdown"
         >
           <div className="container mx-auto px-4 md:px-6 text-center">
@@ -403,14 +403,14 @@ export default function Home() {
 
           {/* Slide Content */}
           <div
-            className="relative z-20 max-w-7xl mx-auto px-8 md:px-14 lg:px-20 w-full py-10 md:py-14 pb-36 md:pb-28"
+            className="relative z-20 max-w-7xl mx-auto px-8 md:px-14 lg:px-20 w-full py-10 md:py-6 pb-24 md:pb-28"
             role="group"
             aria-roledescription="slide"
             aria-label={`Slide ${currentSlide + 1} of ${totalSlides}: ${current.subtitle}`}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               {/* Left Column - Text Content */}
-              <div>
+              <div className='mb-7'>
                 <FadeInSection key={`badge-${currentSlide}`} type="fadeDown" delay={0.15} duration={0.5} resetKey={currentSlide}>
                   <div className="inline-flex items-center gap-2 bg-white shadow-sm border border-brand-200 text-brand-700 text-xs font-bold px-4 py-2 rounded-full mb-5">
                     <div className="w-1.5 h-1.5 bg-brand-600 rounded-full animate-pulse" aria-hidden="true" />
@@ -491,7 +491,7 @@ export default function Home() {
                 delay={0.7}
                 duration={0.6}
                 resetKey={currentSlide}
-                className="flex justify-center"
+                className="flex justify-center md:mt-2"
               >
                 <motion.div className="relative" aria-hidden="true" {...floatAnimation}>
                   {/* Oval shadow under the image */}
@@ -581,11 +581,11 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="h-11 bg-gradient-to-b from-white to-brand-50/60 relative z-10" aria-hidden="true" />
+        <div className="h-6 bg-gradient-to-b from-white to-brand-50/60 relative z-10" aria-hidden="true" />
       </div>
 
       {/* Trust Indicators Section */}
-      <section className="bg-gradient-to-b from-brand-50/60 to-brand-50/30 py-10 md:py-14" aria-label="Our commitments">
+      <section className="bg-gradient-to-b from-brand-50/60 to-brand-50/30 py-4 md:py-10" aria-label="Our commitments">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
             {promiseStats.map((s, i) => (
@@ -598,7 +598,7 @@ export default function Home() {
                 className="text-center p-5 bg-white rounded-2xl border border-brand-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div className="flex justify-center mb-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
+                  <div className="w-9 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
                     <s.icon className="w-4 h-4 text-brand-600" aria-hidden="true" />
                   </div>
                 </div>
@@ -613,7 +613,7 @@ export default function Home() {
       <div className="h-10 bg-gradient-to-b from-brand-50/30 to-white" aria-hidden="true" />
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="bg-white pt-4 pb-16 md:pb-20" aria-labelledby="how-heading">
+      <section id="how-it-works" className="bg-white md:pt-4 pb-6 md:pb-12" aria-labelledby="how-heading">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -718,16 +718,16 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="h-10 bg-gradient-to-b from-white to-brand-50/50" aria-hidden="true" />
+      <div className="h-6 md:h-12 bg-gradient-to-b from-white to-brand-50/50" aria-hidden="true" />
 
       {/* Benefits Section */}
-      <section id="benefits" className="bg-gradient-to-b from-brand-50/50 to-brand-50/20 pt-4 pb-16 md:pb-20" aria-labelledby="benefits-heading">
+      <section id="benefits" className="bg-gradient-to-b from-brand-50/50 to-brand-50/20 pt-2 md:pt-4 pb-8 md:pb-12" aria-labelledby="benefits-heading">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-6 md:mb-12"
           >
             <span className="inline-block text-xs font-bold tracking-widest text-brand-600 uppercase mb-3">Built for Nigeria</span>
             <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold text-brand-800 mb-3">
@@ -795,7 +795,7 @@ export default function Home() {
       <div className="h-10 bg-gradient-to-b from-brand-50/20 to-white" aria-hidden="true" />
 
       {/* Waitlist Section */}
-      <section id="waitlist" className="bg-white pt-4 pb-16 md:pb-24" aria-labelledby="waitlist-heading">
+      <section id="waitlist" className="bg-white md:pt-8 pb-16 md:pb-24" aria-labelledby="waitlist-heading">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -803,8 +803,8 @@ export default function Home() {
             viewport={{ once: true }}
             className="max-w-lg mx-auto"
           >
-            <div className="bg-white rounded-3xl shadow-xl border border-brand-100 p-8 md:p-12 text-center">
-              <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <div className="bg-white rounded-3xl shadow-xl border border-brand-100 p-6 md:p-12 text-center">
+              <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center mx-auto my-2 mb-5">
                 <ShoppingBag className="w-6 h-6 text-white" aria-hidden="true" />
               </div>
               <h2 id="waitlist-heading" className="text-2xl md:text-3xl font-bold text-brand-800 mb-2">

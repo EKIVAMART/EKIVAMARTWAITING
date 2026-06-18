@@ -193,7 +193,7 @@ export function WaitlistSignup() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       {/* First & Last Name */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2 md:gap-3">
         <div>
           <div className="relative">
             <label htmlFor="firstName" className="sr-only">First name</label>

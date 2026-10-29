@@ -1,0 +1,38 @@
+Product photography used in the local design preview:
+
+Nike Air Max 270: Nike official product page
+https://www.nike.com/t/air-max-270-mens-shoes-KkLcGR/AH8050-022
+
+Sony WH-1000XM5: Unique Photo product listing
+https://www.uniquephoto.com/product/sony-wh-1000xm5-noise-canceling-wireless-over-ear-headphones-black
+
+Laptop and dress: existing project asset, /public/app_preview.png.
+These images illustrate product categories, not confirmed inventory or brand partnerships.
+
+3D icons: Microsoft Fluent Emoji (MIT license).
+https://github.com/microsoft/fluentui-emoji
+License included at /public/icons/LICENSE.txt.
+
+Marketplace benefit photography (Pexels):
+
+local-shop-photo.webp — Maria Orlova, fashion store interior.
+https://www.pexels.com/photo/fashion-store-interior-with-garments-hanging-on-racks-4940756/
+
+seller-packing-photo.webp — Kampus Production, packing online orders.
+https://www.pexels.com/photo/woman-sitting-at-the-table-and-packing-orders-7857532/
+
+parcel-delivery-photo.webp — Khwanchai Phanthong, parcel handover.
+https://www.pexels.com/photo/man-delivering-packages-to-a-person-4175032/
+
+License: https://www.pexels.com/license/
+These stock photographs illustrate shopping, selling and delivery; they do not depict confirmed EkivaMart vendors, customers or locations.
+
+Current people-focused benefit photography:
+
+seller-boutique-photo.webp — Thirdman, woman with a clothing display.
+https://www.pexels.com/photo/woman-standing-near-the-hanging-clothes-8484204/
+
+delivery-handover-photo.webp — Kindel Media, courier handing over packages.
+https://www.pexels.com/photo/a-delivery-man-handing-packages-6995144/
+
+Used under the Pexels license linked above. These are illustrative stock photographs, not endorsements or photographs of confirmed EkivaMart participants.

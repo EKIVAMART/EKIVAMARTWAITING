@@ -3,13 +3,13 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-06B6D4)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/license-proprietary-red)](LICENSE)
 
-# Faflora - Coming Soon Launch Page
+# EkivaMart - Coming Soon Launch Page
 
 Nigeria's premier multi-vendor marketplace coming soon landing page.
 
 ## Overview
 
-A modern, responsive launch page for Faflora, a marketplace connecting buyers with authentic Nigerian products and empowering local vendors. Built with Next.js 15, Tailwind CSS, and Framer Motion.
+A modern, responsive launch page for EkivaMart, a marketplace connecting buyers with authentic Nigerian products and empowering local vendors. Built with Next.js 15, Tailwind CSS, and Framer Motion.
 
 ## Tech Stack
 
@@ -23,11 +23,11 @@ A modern, responsive launch page for Faflora, a marketplace connecting buyers wi
 ## Features
 
 - Animated countdown timer with flip-card digits
-- Dual-audience carousel (shoppers/vendors)
+- Separate shopper and vendor guides
 - Responsive mobile-first design
 - Waitlist signup with role selection (customer/vendor)
 - Accessibility-focused (WCAG compliant)
-- Geometric animated background
+- Responsive product showcase and FAQ accordion
 - Social media integration
 - Smooth scroll navigation
 

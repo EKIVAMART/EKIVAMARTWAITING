@@ -72,10 +72,6 @@ export default function DraggableWhatsAppButton() {
       style={{ bottom: position.bottom, right: position.right }}
     >
       <div className="relative">
-        {/* Subtle, slower pulse - less aggressive */}
-        <div className="absolute inset-0 rounded-full animate-pulse bg-green-300 opacity-20" />
-        <div className="absolute inset-0 rounded-full animate-ping bg-green-300 opacity-30" style={{ animationDuration: '2s' }} />
-        
         {/* WhatsApp Button - Light green background + white icon */}
         <div className="relative bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition duration-200">
           <a
@@ -105,7 +101,7 @@ export default function DraggableWhatsAppButton() {
             </div>
             
             <div className="text-gray-600 text-xs leading-relaxed mb-3">
-              Have questions about Faflora? We're here to help!
+              Have questions about EkivaMart? We're here to help!
             </div>
             
             <div className="text-brand-600 text-[10px] font-medium flex items-center gap-1">

@@ -1,16 +1,17 @@
 {
-  "name": "Faflora",
-  "short_name": "Faflora",
+  "name": "EkivaMart",
+  "short_name": "EkivaMart",
   "description": "Nigeria's Premier Multi-Vendor Marketplace",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#9d4ae3",
+  "theme_color": "#228b22",
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "/app-icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "/brand/ekivamart-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

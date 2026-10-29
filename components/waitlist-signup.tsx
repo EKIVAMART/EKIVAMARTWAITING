@@ -132,11 +132,11 @@ export function WaitlistSignup() {
     const successMessage = submittedRole === 'vendor'
       ? {
           title: "You're on the list!",
-          message: "We'll notify you when Faflora launches. Get ready to start selling and grow your business!"
+          message: "We'll notify you when EkivaMart launches. Get ready to start selling and grow your business!"
         }
       : {
           title: "You're on the list!",
-          message: "We'll notify you when Faflora launches. Get ready to discover authentic Nigerian products!"
+          message: "We'll notify you when EkivaMart launches. Get ready to discover authentic Nigerian products!"
         };
 
     return (

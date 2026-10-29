@@ -123,7 +123,7 @@ export function StackedFlipCard({
       </div>
 
       {/*  Bottom static half  */}
-      <div className="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden rounded-b-lg bg-gradient-to-br from-[#8a30a8] to-[#6e2090]">
+      <div className="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden rounded-b-lg bg-gradient-to-br from-[#1d701f] to-[#245323]">
         <div
           ref={botStaticRef}
           className={botHalfText}
@@ -154,7 +154,7 @@ export function StackedFlipCard({
         >
           {/* Front face — top half of current digit */}
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#9d4ae3] to-[#8236be]"
+            className="absolute inset-0 bg-gradient-to-br from-[#228b22] to-[#1d701f]"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
           >
             <div ref={frontDigitRef} className={topHalfText}>
@@ -164,7 +164,7 @@ export function StackedFlipCard({
 
           {/* Back face — bottom half of NEXT digit */}
           <div
-            className="absolute inset-0 bg-gradient-to-br from-[#8a30a8] to-[#6e2090]"
+            className="absolute inset-0 bg-gradient-to-br from-[#1d701f] to-[#245323]"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',

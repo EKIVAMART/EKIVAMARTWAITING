@@ -5,25 +5,25 @@
    ============================================ */
 
 @theme {
-  /* Brand Colors - Purple Scale */
-  --color-brand-50: #f9f6fd;
-  --color-brand-100: #f3ecfc;
-  --color-brand-200: #e8dbf8;
-  --color-brand-300: #d8c1f4;
-  --color-brand-400: #c69ff4;
-  --color-brand-500: #ad74e8;
-  --color-brand-600: #9d4ae3;
-  --color-brand-700: #8236be;
-  --color-brand-800: #692a99;
-  --color-brand-900: #56217e;
-  --color-brand-950: #32104c;
+  /* Brand Colors - Green Scale */
+  --color-brand-50: #f8fbf3;
+  --color-brand-100: #edf5df;
+  --color-brand-200: #deebc6;
+  --color-brand-300: #c4dba1;
+  --color-brand-400: #95b969;
+  --color-brand-500: #55913e;
+  --color-brand-600: #228b22;
+  --color-brand-700: #1d701f;
+  --color-brand-800: #245323;
+  --color-brand-900: #1b3c1d;
+  --color-brand-950: #102715;
   
   /* Accent Colors */
   --color-accent-teal: #00bca6;
   --color-accent-pink: #d90093;
   --color-accent-coral: #ff356f;
   --color-accent-amber: #ffbd30;
-  --color-accent-lime: #f9f854;
+  --color-accent-lime: #95c11f;
   
   /* Typography Scale */
   --font-size-xs: 0.75rem;
@@ -191,7 +191,7 @@
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(86, 33, 126, 0.5);
+    background: rgba(34, 139, 34, 0.5);
     border-radius: 4px;
   }
   
@@ -265,10 +265,8 @@
   
   /* Focus States for Accessibility */
   *:focus-visible {
-    outline: none;
-    ring: 2px solid var(--color-brand-400);
-    ring-offset: 2px;
-    ring-offset-color: var(--color-brand-950);
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
     border-radius: 0.25rem;
   }
   

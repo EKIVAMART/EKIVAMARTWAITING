@@ -1,5 +1,6 @@
 // lib/api.ts
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://faflora-production.onrender.com';
+// Keep browser requests on the site origin; Next.js forwards them to the backend.
+const WAITLIST_API_PATH = '/api/v1/waitlist';
 
 export interface JoinWaitlistRequest {
   email: string;
@@ -19,7 +20,7 @@ export interface LaunchConfigResponse {
 
 export const waitlistApi = {
   async join(data: JoinWaitlistRequest): Promise<{ success: boolean; message: string }> {
-    const response = await fetch(`${API_BASE_URL}/api/v1/waitlist/join`, {
+    const response = await fetch(`${WAITLIST_API_PATH}/join`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ export const waitlistApi = {
 
   async getLaunchConfig(): Promise<LaunchConfigResponse> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/waitlist/launch-config`);
+      const response = await fetch(`${WAITLIST_API_PATH}/launch-config`);
       const result = await response.json();
       
       if (result.success && result.data) {

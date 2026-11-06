@@ -152,7 +152,7 @@ export default function Home() {
                   data-reveal
                   data-motion-order="1"
                 >
-                  Great finds.
+                   Shop Fast sell quick fast delivery.
                 </span>
                 <span
                   className="hero-title-line"

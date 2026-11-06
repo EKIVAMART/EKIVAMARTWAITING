@@ -12,16 +12,16 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://faflora.com"),
-  title: "EkivaMart | Nigeria's Premier Multi-Vendor Marketplace - Coming Soon",
+  title: "EkivaMart Nigeria's Premier MultiVendor Marketplace Coming Soon",
   description:
     "EkivaMart is transforming Nigerian e-commerce. Connect with local vendors, shop authentic products, and grow your business. Join the waitlist for early access.",
   keywords:
     "Nigerian marketplace, e-commerce Nigeria, local vendors, shop Nigerian products, sell online Nigeria, EkivaMart",
   authors: [{ name: "EkivaMart" }],
   openGraph: {
-    title: "EkivaMart - Something Amazing is Coming",
+    title: "EkivaMart Something Amazing is Coming",
     description:
-      "Nigeria's premier multi-vendor marketplace is launching. Join the waitlist for early access! Shop authentic local products or grow your business as a vendor.",
+      "Nigeria's premier multi-vendor marketplace is launching. Join the waitlist for early access Shop authentic local products or grow your business as a vendor.",
     url: "https://faflora.com",
     siteName: "EkivaMart",
     images: [
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "EkivaMart - Something Amazing is Coming",
+    title: "EkivaMart  Something Amazing is Coming",
     description:
-      "Nigeria's premier multi-vendor marketplace is launching. Join the waitlist for early access!",
+      "Nigeria's premier multivendor marketplace is launching. Join the waitlist for early access",
     images: ["/brand/ekivamart-social.png"],
   },
   icons: {
@@ -69,7 +69,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="application-name" content="EkivaMart" />
       </head>
-      <body className={dmSans.className}>
+      <body className={dmSans.className} suppressHydrationWarning>
         {children}
         <DraggableWhatsAppButton />
       </body>

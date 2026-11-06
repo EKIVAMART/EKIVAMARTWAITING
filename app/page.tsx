@@ -152,16 +152,16 @@ export default function Home() {
                   data-reveal
                   data-motion-order="1"
                 >
-                  Shop Fast. Sell More. Enjoy Fast Delivery
+                  Shop Fast. Sell More.  
                 </span>
                 <span
                   className="hero-title-line"
                   data-reveal
                   data-motion-order="2"
                 >
-                  Closer to{" "}
+                 Enjoy Fast{" "}
                   <span className="hero-word">
-                    home.
+                    Delivery.
                     <svg viewBox="0 0 260 18" aria-hidden="true">
                       <path d="M3 12C63 2 155 2 255 9M24 16C89 8 180 8 237 12" />
                     </svg>

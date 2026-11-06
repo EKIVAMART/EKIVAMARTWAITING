@@ -169,10 +169,8 @@ export default function Home() {
                 </span>
               </h1>
               <p className="hero-description" data-reveal data-motion-order="3">
-                Discover the things you love and the local businesses behind
-                them.
-                <br className="desktop-break" /> Your next favourite
-                marketplace. Made for Nigeria.
+                 Everything You Love, All in One Place. Shop Local. Shop Smart. Shop Fast
+                <br className="desktop-break" /> EKIVAMART Your Marketplace.
               </p>
               <div
                 className="hero-launch"
